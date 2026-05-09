@@ -3,331 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Our Elite Community | Discord</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
+    <title>ALIM'S GVTX | Premium Infrastructure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800;900&display=swap" rel="stylesheet">
     <style>
-        /* 
-           PROFESSIONAL BLACK & WHITE IMAGE-BASED ARCHITECTURE
-           Updated for allo.png with 3D Depth
-        */
-
         :root {
-            --bg-color: #050505;
-            --accent-white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --shadow-3d: 0 30px 60px rgba(0,0,0,0.9);
-            --border-glow: rgba(255, 255, 255, 0.15);
-            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            --primary-bg: #050505;
+            --secondary-bg: #0a0a0a;
+            --accent-color: #ffffff;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --error: #ff3333;
+            --success: #00ff88;
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+        .light-theme {
+            --primary-bg: #f0f2f5;
+            --secondary-bg: #ffffff;
+            --accent-color: #000000;
+            --text-main: #111111;
+            --text-dim: #555555;
+            --glass: rgba(0, 0, 0, 0.05);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
-        body, html {
-            height: 100%;
-            overflow: hidden;
-            background-color: var(--bg-color);
-            color: var(--accent-white);
-        }
-
-        /* Animated Grid Background */
-        body::after {
-            content: "";
-            position: absolute;
+        /* ⛔ MOBIL QURILMALAR UCHUN BLOKIROVKA STILI */
+        #mobile-block-overlay {
+            display: none;
+            position: fixed;
             top: 0; left: 0;
-            width: 200%; height: 200%;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            z-index: -1;
-            animation: moveGrid 20s linear infinite;
-        }
-
-        @keyframes moveGrid {
-            from { transform: translate(0, 0); }
-            to { transform: translate(-60px, -60px); }
-        }
-
-        .bg-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
-            z-index: 0;
-            filter: blur(100px);
-        }
-
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 10;
-            display: flex;
+            width: 100%; height: 100%;
+            background: #ffffff;
+            color: #000;
+            z-index: 999999;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            width: 100vw;
-            padding: 20px;
-            perspective: 2000px; /* Stronger 3D perspective */
-        }
-
-        /* Header */
-        .header {
-            margin-bottom: 40px;
             text-align: center;
-            animation: fadeInDown 1s ease-out;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .header h1 {
-            font-size: clamp(2rem, 8vw, 4rem);
+        @media only screen and (max-width: 1024px) {
+            #mobile-block-overlay { display: flex; }
+            .desktop-content { display: none !important; }
+        }
+
+        /* ✅ ASOSIY DIZAYN ELEMENTLARI */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            transition: var(--transition);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Noutbuk o'lchamini ushlab turish uchun wrapper */
+        .desktop-content {
+            min-width: 1100px; /* Noutbuk kengligi */
+            width: 100%;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--glass-border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            perspective: 1000px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .bg-grid-inner {
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent, var(--primary-bg));
+            transform: rotateX(45deg);
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: rotateX(45deg) translateY(0); }
+            100% { transform: rotateX(45deg) translateY(60px); }
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            backdrop-filter: blur(20px);
+            background: var(--glass);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+        }
+
+        .nav-actions { display: flex; gap: 15px; }
+
+        .btn-nav {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-nav:hover {
+            background: var(--text-main);
+            color: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 0; right: -400px;
+            width: 350px; height: 100%;
+            background: var(--secondary-bg);
+            border-left: 1px solid var(--glass-border);
+            z-index: 2000;
+            padding: 40px 30px;
+            transition: 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+            box-shadow: -20px 0 50px rgba(0,0,0,0.5);
+        }
+
+        .settings-panel.open { right: 0; }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .setting-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .copy-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(120, 120, 120, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+        }
+
+        .btn-copy {
+            background: var(--text-main);
+            color: var(--primary-bg);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
             font-weight: 900;
-            letter-spacing: 15px;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff 30%, #333 100%);
+        }
+
+        .main-content {
+            padding-top: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-title {
+            font-size: 6rem;
+            font-weight: 900;
+            text-align: center;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom, var(--text-main), var(--text-dim));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(255,255,255,0.1));
         }
 
-        /* Image Showcase Box - The replacement for video */
-        .image-box {
-            position: relative;
-            width: 85%;
-            max-width: 850px;
-            aspect-ratio: 16/9;
-            background: var(--glass-bg);
-            border: 1px solid var(--border-glow);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: var(--shadow-3d);
-            transform: rotateX(10deg) rotateY(-5deg); /* Professional tilt */
+        .btn-join-huge {
+            padding: 25px 60px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
             transition: var(--transition);
-        }
-
-        .image-box:hover {
-            transform: rotateX(0deg) rotateY(0deg) scale(1.05);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 40px 80px rgba(255,255,255,0.1);
-        }
-
-        .image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-            filter: grayscale(20%) contrast(110%);
-        }
-
-        .image-box:hover img {
-            filter: grayscale(0%) contrast(105%);
-            transform: scale(1.1);
-        }
-
-        /* Overlay with text */
-        .image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 50px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.95));
-            pointer-events: none;
-        }
-
-        /* Slogan Styling */
-        .slogan-box {
-            text-align: center;
-            margin-top: 45px;
-            max-width: 800px;
-            animation: fadeInUp 1.2s ease-out;
-        }
-
-        .slogan-box p {
-            font-size: 1.25rem;
-            color: #aaa;
-            line-height: 1.8;
-            margin-bottom: 25px;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        .highlight {
-            color: #fff;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-
-        .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 1px;
-            background: #fff;
-            box-shadow: 0 0 10px #fff;
-        }
-
-        /* 3D JOIN BUTTON */
-        .btn-container {
-            margin-top: 35px;
-            z-index: 20;
-        }
-
-        .join-btn {
-            position: relative;
-            display: inline-block;
-            padding: 22px 70px;
-            background: #ffffff;
-            color: #000;
-            text-decoration: none;
-            font-size: 1.6rem;
-            font-weight: 900;
+            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
             text-transform: uppercase;
-            letter-spacing: 4px;
-            border-radius: 12px; /* Square-ish modern look */
-            box-shadow: 0 15px 40px rgba(255,255,255,0.2);
-            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            margin-bottom: 60px;
+        }
+
+        .image-container {
+            width: 90%;
+            max-width: 1000px;
+            height: 500px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
             overflow: hidden;
+            transform: perspective(1000px) rotateX(10deg);
+            box-shadow: var(--shadow);
+            margin-bottom: 100px;
         }
 
-        .join-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(255,255,255,0.4);
-            letter-spacing: 6px;
-        }
+        .image-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        .join-btn:active {
-            transform: translateY(2px);
-        }
-
-        /* Scanline effect for that high-tech feel */
-        .scanline {
+        .reg-wrapper {
             width: 100%;
-            height: 4px;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.1);
-            position: absolute;
-            top: 0;
-            animation: scanMove 3s linear infinite;
+            max-width: 550px;
+            background: var(--secondary-bg);
+            padding: 50px;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            margin-bottom: 150px;
         }
 
-        @keyframes scanMove {
-            0% { top: 0; }
-            100% { top: 100%; }
+        .input-block { margin-bottom: 30px; }
+
+        .input-block label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+            text-transform: uppercase;
         }
 
-        /* Entry Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .input-block input, .input-block select {
+            width: 100%;
+            padding: 15px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
         }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        select option { background-color: var(--secondary-bg); color: var(--text-main); }
+
+        .input-error { border: 1px solid var(--error) !important; animation: shake 0.4s ease; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        /* Particles Decor */
-        .particle {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            filter: blur(1px);
-            opacity: 0.3;
-            pointer-events: none;
+        .btn-submit {
+            width: 100%;
+            padding: 20px;
+            background: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
         }
 
+        .btn-submit:hover { background: var(--text-main); color: var(--primary-bg); }
+
+        #statusBox {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .success-style { background: rgba(0,255,136,0.1); border: 1px solid var(--success); color: var(--success); }
+
+        .footer { padding: 50px; text-align: center; color: var(--text-dim); font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-    <div class="scanline"></div>
+    <!-- TELEFONLAR UCHUN BLOKIROVKA PODSKAZKASI -->
+    <div id="mobile-block-overlay">
+        <div style="font-size: 4rem; margin-bottom: 20px;">💻</div>
+        <h1 style="font-weight: 900; letter-spacing: -1px; margin-bottom: 10px;">ACCESS DENIED</h1>
+        <p style="color: #666; max-width: 300px; line-height: 1.5;">This terminal requires a high-end desktop infrastructure. Please log in using a <b>Laptop</b> or <b>PC</b>.</p>
+        <div style="margin-top: 30px; font-size: 0.7rem; color: #999; text-transform: uppercase;">ALIM'S GVTX | SECURITY SYSTEM</div>
+    </div>
 
-    <!-- Random particles to increase code complexity and visual flair -->
-    <div class="particle" style="width: 2px; height: 2px; top: 20%; left: 15%;"></div>
-    <div class="particle" style="width: 3px; height: 3px; bottom: 30%; right: 10%;"></div>
-    <div class="particle" style="width: 2px; height: 2px; top: 80%; left: 40%;"></div>
+    <!-- ASOSIY CONTENT (FAQAT NOUTBUKDA KO'RINADI) -->
+    <div class="desktop-content">
+        <div class="bg-grid"><div class="bg-grid-inner"></div></div>
 
-    <div class="container">
-        
-        <!-- Header Section -->
-        <div class="header">
-            <h1>ALIM'S GVTX</h1>
-        </div>
+        <nav class="navbar">
+            <div class="logo"><strong>ALIM'S GVTX</strong></div>
+            <div class="nav-actions">
+                <button class="btn-nav" id="btn-lang" onclick="toggleLang()">RU</button>
+                <button class="btn-nav" onclick="toggleSettings()">⚙️</button>
+            </div>
+        </nav>
 
-        <!-- Image Showcase Box -->
-        <div class="image-box">
-            <!-- Rasm shu yerda: allo.png -->
-            <img src="allo.png" alt="Discord Community Showcase">
+        <div class="settings-panel" id="settingsMenu">
+            <div class="panel-header" onclick="toggleSettings()">
+                <span id="txt-back">← Back</span>
+            </div>
             
-            <div class="image-overlay">
-                <p style="font-size: 0.9rem; letter-spacing: 4px; opacity: 0.7; color: #fff;">        </p>
+            <div class="setting-card">
+                <h4 id="txt-theme-title">Interface</h4>
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;" id="txt-theme-desc">Switch between light and dark modes.</p>
+                <button class="btn-submit" onclick="changeTheme()" id="txt-theme-btn">Change Theme</button>
+            </div>
+
+            <div class="setting-card">
+                <h4 id="txt-ai-title">Neural Network</h4>
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;" id="txt-ai-desc">Redirect to AI Assistant (ChatGPT).</p>
+                <button class="btn-submit" onclick="window.open('https://chatgpt.com', '_blank')">AI ASSISTANT</button>
+            </div>
+
+            <div class="setting-card">
+                <h4 id="txt-support-title">Support</h4>
+                <p style="font-size: 0.8rem; color: var(--text-dim);" id="txt-support-desc">If you have problems, contact us:</p>
+                <div class="copy-box">
+                    <span id="supportEmail">cekpetboy@gmail.com</span>
+                    <button class="btn-copy" onclick="copyEmail()" id="txt-copy">COPY</button>
+                </div>
+                <button class="btn-submit" style="margin-top: 15px;" onclick="window.location.href='mailto:cekpetboy@gmail.com'" id="txt-write">Write Email</button>
             </div>
         </div>
 
-        <!-- Compelling Copywriting -->
-        <div class="slogan-box">
-            <p>
-                Step into the arena! Join our elite server and immerse yourself in high-stakes events. Rise through the ranks to become an active legend and claim your rightful rewards. With fresh events launching every single week, your opportunity for greatness is just one click away. Don’t just watch—participate. Join us now!
-            </p>
-            <p style="color: #444; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px;">
-                HIGH-SPEED NETWORKING • EXCLUSIVE INSIGHTS • NO LIMITS
-            </p>
+        <div class="main-content">
+            <h1 class="hero-title">ALIM'S<br>GVTX ELITE</h1>
+            <button class="btn-join-huge" id="btn-join" onclick="handleJoinClick()">Join Server</button>
+
+            <div class="image-container">
+                <img src="allo.png" alt="Showcase">
+            </div>
+
+            <div class="reg-wrapper" id="regSection">
+                <h2 class="form-title" id="txt-reg-title" style="text-align: center; margin-bottom: 30px;">Access Terminal</h2>
+                <div class="input-block">
+                    <label id="lbl-name">Full Name (Format: First Last)</label>
+                    <input type="text" id="inpName" placeholder="Alimov Alim">
+                </div>
+                <div class="input-block">
+                    <label id="lbl-email">Secure Email</label>
+                    <input type="email" id="inpEmail" placeholder="user@domain.com">
+                </div>
+                <div class="input-block">
+                    <label id="lbl-date">Birth Date</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <select id="selDay"></select>
+                        <select id="selMonth"></select>
+                        <select id="selYear"></select>
+                    </div>
+                </div>
+                <button class="btn-submit" id="btn-complete" onclick="validateAndRegister()">Complete Registration</button>
+                <div id="statusBox"></div>
+            </div>
         </div>
 
-        <!-- Interactive CTA -->
-        <div class="btn-container">
-            <a href="https://discord.gg/CJYXEBp55" class="join-btn">Join to Server</a>
-        </div>
-
-        <!-- Subtle Branding -->
-        <div style="position: absolute; bottom: 30px; font-size: 0.6rem; opacity: 0.2; letter-spacing: 10px; text-transform: uppercase;">
-            Identity / Power / Community
-        </div>
-
+        <footer class="footer">
+            &copy; 2026 ALIM'S GVTX. ALL RIGHTS RESERVED.
+        </footer>
     </div>
 
-    <!-- Extra Layers for "Professional Weight" -->
-    <style>
-        /* Custom scrollbar for future-proofing */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    <script>
+        let isRegistered = localStorage.getItem('isAuth') === 'true';
+        let currentLang = 'EN';
 
-        /* Floating container movement */
-        .container {
-            animation: subtleFloat 8s ease-in-out infinite;
+        const dict = {
+            EN: {
+                lang: 'RU', back: '← Back', themeTitle: 'Interface', themeDesc: 'Switch light/dark modes.',
+                themeBtn: 'Toggle Theme', aiTitle: 'Neural Network', aiDesc: 'Access ChatGPT assistant.',
+                supportTitle: 'Support Service', supportDesc: 'If you find an issue, contact us at:',
+                copy: 'COPY', write: 'Write Email', join: 'Join Server', regTitle: 'Access Terminal',
+                lblName: 'Full Name (Format: First Last)', lblEmail: 'Secure Email', lblDate: 'Birth Date',
+                btnComplete: 'Complete Registration', errorName: 'Please enter valid Full Name (Example: Alim Alimov)',
+                errorEmail: 'Please enter a valid email address!', success: 'Access Granted! You can now join.',
+                already: 'This email is already in our database!'
+            },
+            RU: {
+                lang: 'EN', back: '← Назад', themeTitle: 'Интерфейс', themeDesc: 'Переключение темной/светлой темы.',
+                themeBtn: 'Сменить тему', aiTitle: 'Нейросеть', aiDesc: 'Перейти к помощнику ChatGPT.',
+                supportTitle: 'Служба поддержки', supportDesc: 'Если возникла проблема, напишите нам:',
+                copy: 'КОПИЯ', write: 'Написать письмо', join: 'Войти в сервер', regTitle: 'Терминал Доступа',
+                lblName: 'Имя и Фамилия (Пример: Alim Alimov)', lblEmail: 'Электронная почта', lblDate: 'Дата рождения',
+                btnComplete: 'Завершить регистрацию', errorName: 'Введите имя корректно (Пример: Alim Alimov)',
+                errorEmail: 'Введите корректный адрес почты!', success: 'Доступ разрешен! Теперь можете войти.',
+                already: 'Этот Email уже зарегистрирован!'
+            }
+        };
+
+        const d = document.getElementById('selDay');
+        const m = document.getElementById('selMonth');
+        const y = document.getElementById('selYear');
+        for(let i=1; i<=31; i++) d.innerHTML += `<option style="color: inherit;">${i}</option>`;
+        for(let i=1; i<=12; i++) m.innerHTML += `<option style="color: inherit;">${i}</option>`;
+        for(let i=2006; i<=2011; i++) y.innerHTML += `<option style="color: inherit;">${i}</option>`;
+
+        function toggleSettings() {
+            document.getElementById('settingsMenu').classList.toggle('open');
         }
 
-        @keyframes subtleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        function changeTheme() {
+            document.body.classList.toggle('light-theme');
         }
 
-        /* Shine effect on the button */
-        .join-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.05), transparent);
-            transition: 0.5s;
+        function toggleLang() {
+            currentLang = currentLang === 'EN' ? 'RU' : 'EN';
+            const t = dict[currentLang];
+            document.getElementById('btn-lang').innerText = t.lang;
+            document.getElementById('txt-back').innerText = t.back;
+            document.getElementById('txt-theme-title').innerText = t.themeTitle;
+            document.getElementById('txt-theme-desc').innerText = t.themeDesc;
+            document.getElementById('txt-theme-btn').innerText = t.themeBtn;
+            document.getElementById('txt-ai-title').innerText = t.aiTitle;
+            document.getElementById('txt-ai-desc').innerText = t.aiDesc;
+            document.getElementById('txt-support-title').innerText = t.supportTitle;
+            document.getElementById('txt-support-desc').innerText = t.supportDesc;
+            document.getElementById('txt-copy').innerText = t.copy;
+            document.getElementById('txt-write').innerText = t.write;
+            document.getElementById('btn-join').innerText = t.join;
+            document.getElementById('txt-reg-title').innerText = t.regTitle;
+            document.getElementById('lbl-name').innerText = t.lblName;
+            document.getElementById('lbl-email').innerText = t.lblEmail;
+            document.getElementById('lbl-date').innerText = t.lblDate;
+            document.getElementById('btn-complete').innerText = t.btnComplete;
         }
 
-        .join-btn:hover::after {
-            left: 100%;
+        function copyEmail() {
+            const email = document.getElementById('supportEmail').innerText;
+            navigator.clipboard.writeText(email);
+            const btn = document.getElementById('txt-copy');
+            const original = btn.innerText;
+            btn.innerText = 'DONE!';
+            setTimeout(() => btn.innerText = original, 2000);
         }
-    </style>
 
+        function handleJoinClick() {
+            if (localStorage.getItem('isAuth') === 'true') {
+                window.location.href = "https://discord.gg/CJYXEBp55";
+            } else {
+                document.getElementById('regSection').scrollIntoView({behavior: 'smooth'});
+                alert(currentLang === 'EN' ? "Please register correctly first!" : "Сначала пройдите правильную регистрацию!");
+            }
+        }
+
+        function validateAndRegister() {
+            const name = document.getElementById('inpName');
+            const email = document.getElementById('inpEmail');
+            const box = document.getElementById('statusBox');
+            const t = dict[currentLang];
+
+            const nameRegex = /^[A-Z][a-z]+ [A-Z][a-z]+$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            let valid = true;
+
+            if(!nameRegex.test(name.value)) {
+                name.classList.add('input-error');
+                valid = false;
+            } else {
+                name.classList.remove('input-error');
+            }
+
+            if(!emailRegex.test(email.value)) {
+                email.classList.add('input-error');
+                valid = false;
+            } else {
+                email.classList.remove('input-error');
+            }
+
+            if(!valid) {
+                box.style.display = 'block';
+                box.style.background = 'rgba(255,0,0,0.1)';
+                box.style.border = '1px solid var(--error)';
+                box.style.color = 'var(--error)';
+                box.innerText = !nameRegex.test(name.value) ? t.errorName : t.errorEmail;
+                return;
+            }
+
+            let database = JSON.parse(localStorage.getItem('user_db') || "[]");
+            if(database.includes(email.value)) {
+                alert(t.already);
+                return;
+            }
+
+            database.push(email.value);
+            localStorage.setItem('user_db', JSON.stringify(database));
+            localStorage.setItem('isAuth', 'true');
+            
+            box.className = 'success-style';
+            box.style.display = 'block';
+            box.innerText = t.success;
+            document.getElementById('btn-complete').style.display = 'none';
+            document.getElementById('btn-join').style.background = 'var(--success)';
+        }
+    </script>
 </body>
 </html>
