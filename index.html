@@ -64,9 +64,8 @@
             min-height: 100vh;
         }
 
-        /* Noutbuk o'lchamini ushlab turish uchun wrapper */
         .desktop-content {
-            min-width: 1100px; /* Noutbuk kengligi */
+            min-width: 1100px;
             width: 100%;
         }
 
@@ -266,7 +265,11 @@
             transition: 0.3s;
         }
 
-        select option { background-color: var(--secondary-bg); color: var(--text-main); }
+        /* Select ichidagi raqamlar ko'rinishi uchun */
+        select option {
+            background-color: #1a1a1a !important;
+            color: white !important;
+        }
 
         .input-error { border: 1px solid var(--error) !important; animation: shake 0.4s ease; }
 
@@ -308,7 +311,7 @@
 </head>
 <body>
 
-    <!-- TELEFONLAR UCHUN BLOKIROVKA PODSKAZKASI -->
+    <!-- TELEFONLAR UCHUN BLOKIROVKA -->
     <div id="mobile-block-overlay">
         <div style="font-size: 4rem; margin-bottom: 20px;">💻</div>
         <h1 style="font-weight: 900; letter-spacing: -1px; margin-bottom: 10px;">ACCESS DENIED</h1>
@@ -316,7 +319,6 @@
         <div style="margin-top: 30px; font-size: 0.7rem; color: #999; text-transform: uppercase;">ALIM'S GVTX | SECURITY SYSTEM</div>
     </div>
 
-    <!-- ASOSIY CONTENT (FAQAT NOUTBUKDA KO'RINADI) -->
     <div class="desktop-content">
         <div class="bg-grid"><div class="bg-grid-inner"></div></div>
 
@@ -335,19 +337,19 @@
             
             <div class="setting-card">
                 <h4 id="txt-theme-title">Interface</h4>
-                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;" id="txt-theme-desc">Switch between light and dark modes.</p>
+                <p id="txt-theme-desc" style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;">Switch between light and dark modes.</p>
                 <button class="btn-submit" onclick="changeTheme()" id="txt-theme-btn">Change Theme</button>
             </div>
 
             <div class="setting-card">
                 <h4 id="txt-ai-title">Neural Network</h4>
-                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;" id="txt-ai-desc">Redirect to AI Assistant (ChatGPT).</p>
+                <p id="txt-ai-desc" style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;">Redirect to AI Assistant (ChatGPT).</p>
                 <button class="btn-submit" onclick="window.open('https://chatgpt.com', '_blank')">AI ASSISTANT</button>
             </div>
 
             <div class="setting-card">
                 <h4 id="txt-support-title">Support</h4>
-                <p style="font-size: 0.8rem; color: var(--text-dim);" id="txt-support-desc">If you have problems, contact us:</p>
+                <p id="txt-support-desc" style="font-size: 0.8rem; color: var(--text-dim);">If you have problems, contact us:</p>
                 <div class="copy-box">
                     <span id="supportEmail">cekpetboy@gmail.com</span>
                     <button class="btn-copy" onclick="copyEmail()" id="txt-copy">COPY</button>
@@ -393,7 +395,9 @@
     </div>
 
     <script>
-        let isRegistered = localStorage.getItem('isAuth') === 'true';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWC_jYDvWzh241tapSY7LYrI0pS9Dn0tMIZyM14Eje1UXmQoMBHzSD9HNb8v29GPvl/exec';
+        const DISCORD_LINK = 'https://discord.gg/CJYXEBp55';
+        
         let currentLang = 'EN';
 
         const dict = {
@@ -403,36 +407,32 @@
                 supportTitle: 'Support Service', supportDesc: 'If you find an issue, contact us at:',
                 copy: 'COPY', write: 'Write Email', join: 'Join Server', regTitle: 'Access Terminal',
                 lblName: 'Full Name (Format: First Last)', lblEmail: 'Secure Email', lblDate: 'Birth Date',
-                btnComplete: 'Complete Registration', errorName: 'Please enter valid Full Name (Example: Alim Alimov)',
-                errorEmail: 'Please enter a valid email address!', success: 'Access Granted! You can now join.',
-                already: 'This email is already in our database!'
+                btnComplete: 'Complete Registration', errorName: 'Format: First Last (Example: Alim Alimov)',
+                errorEmail: 'Please enter a valid email address!', success: 'Access Granted! Redirecting...',
+                sending: 'Processing...'
             },
             RU: {
-                lang: 'EN', back: '← Назад', themeTitle: 'Интерфейс', themeDesc: 'Переключение темной/светлой темы.',
-                themeBtn: 'Сменить тему', aiTitle: 'Нейросеть', aiDesc: 'Перейти к помощнику ChatGPT.',
-                supportTitle: 'Служба поддержки', supportDesc: 'Если возникла проблема, напишите нам:',
-                copy: 'КОПИЯ', write: 'Написать письмо', join: 'Войти в сервер', regTitle: 'Терминал Доступа',
+                lang: 'EN', back: '← Назад', themeTitle: 'Интерфейс', themeDesc: 'Смена темы.',
+                themeBtn: 'Сменить тему', aiTitle: 'Нейросеть', aiDesc: 'Помощник ChatGPT.',
+                supportTitle: 'Поддержка', supportDesc: 'Если есть проблемы, пишите:',
+                copy: 'КОПИЯ', write: 'Написать', join: 'Войти в сервер', regTitle: 'Терминал Доступа',
                 lblName: 'Имя и Фамилия (Пример: Alim Alimov)', lblEmail: 'Электронная почта', lblDate: 'Дата рождения',
-                btnComplete: 'Завершить регистрацию', errorName: 'Введите имя корректно (Пример: Alim Alimov)',
-                errorEmail: 'Введите корректный адрес почты!', success: 'Доступ разрешен! Теперь можете войти.',
-                already: 'Этот Email уже зарегистрирован!'
+                btnComplete: 'Завершить регистрацию', errorName: 'Пример: Alim Alimov',
+                errorEmail: 'Введите корректный Email!', success: 'Доступ разрешен! Входим...',
+                sending: 'Обработка...'
             }
         };
 
+        // Selectlarni to'ldirish
         const d = document.getElementById('selDay');
         const m = document.getElementById('selMonth');
         const y = document.getElementById('selYear');
-        for(let i=1; i<=31; i++) d.innerHTML += `<option style="color: inherit;">${i}</option>`;
-        for(let i=1; i<=12; i++) m.innerHTML += `<option style="color: inherit;">${i}</option>`;
-        for(let i=2006; i<=2011; i++) y.innerHTML += `<option style="color: inherit;">${i}</option>`;
+        for(let i=1; i<=31; i++) d.innerHTML += `<option value="${i}">${i}</option>`;
+        for(let i=1; i<=12; i++) m.innerHTML += `<option value="${i}">${i}</option>`;
+        for(let i=2006; i<=2011; i++) y.innerHTML += `<option value="${i}">${i}</option>`;
 
-        function toggleSettings() {
-            document.getElementById('settingsMenu').classList.toggle('open');
-        }
-
-        function changeTheme() {
-            document.body.classList.toggle('light-theme');
-        }
+        function toggleSettings() { document.getElementById('settingsMenu').classList.toggle('open'); }
+        function changeTheme() { document.body.classList.toggle('light-theme'); }
 
         function toggleLang() {
             currentLang = currentLang === 'EN' ? 'RU' : 'EN';
@@ -460,69 +460,73 @@
             const email = document.getElementById('supportEmail').innerText;
             navigator.clipboard.writeText(email);
             const btn = document.getElementById('txt-copy');
-            const original = btn.innerText;
             btn.innerText = 'DONE!';
-            setTimeout(() => btn.innerText = original, 2000);
+            setTimeout(() => btn.innerText = 'COPY', 2000);
         }
 
         function handleJoinClick() {
             if (localStorage.getItem('isAuth') === 'true') {
-                window.location.href = "https://discord.gg/CJYXEBp55";
+                window.location.href = DISCORD_LINK;
             } else {
                 document.getElementById('regSection').scrollIntoView({behavior: 'smooth'});
-                alert(currentLang === 'EN' ? "Please register correctly first!" : "Сначала пройдите правильную регистрацию!");
+                const box = document.getElementById('statusBox');
+                box.style.display = 'block';
+                box.style.color = 'var(--error)';
+                box.innerText = currentLang === 'EN' ? "Please register first!" : "Сначала зарегистрируйтесь!";
             }
         }
 
         function validateAndRegister() {
             const name = document.getElementById('inpName');
             const email = document.getElementById('inpEmail');
+            const day = document.getElementById('selDay').value;
+            const month = document.getElementById('selMonth').value;
+            const year = document.getElementById('selYear').value;
             const box = document.getElementById('statusBox');
+            const btn = document.getElementById('btn-complete');
             const t = dict[currentLang];
 
             const nameRegex = /^[A-Z][a-z]+ [A-Z][a-z]+$/;
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            let valid = true;
-
             if(!nameRegex.test(name.value)) {
                 name.classList.add('input-error');
-                valid = false;
-            } else {
-                name.classList.remove('input-error');
-            }
+                box.style.display = 'block';
+                box.innerText = t.errorName;
+                return;
+            } else { name.classList.remove('input-error'); }
 
             if(!emailRegex.test(email.value)) {
                 email.classList.add('input-error');
-                valid = false;
-            } else {
-                email.classList.remove('input-error');
-            }
-
-            if(!valid) {
                 box.style.display = 'block';
-                box.style.background = 'rgba(255,0,0,0.1)';
-                box.style.border = '1px solid var(--error)';
-                box.style.color = 'var(--error)';
-                box.innerText = !nameRegex.test(name.value) ? t.errorName : t.errorEmail;
+                box.innerText = t.errorEmail;
                 return;
-            }
+            } else { email.classList.remove('input-error'); }
 
-            let database = JSON.parse(localStorage.getItem('user_db') || "[]");
-            if(database.includes(email.value)) {
-                alert(t.already);
-                return;
-            }
+            btn.innerText = t.sending;
+            btn.disabled = true;
 
-            database.push(email.value);
-            localStorage.setItem('user_db', JSON.stringify(database));
-            localStorage.setItem('isAuth', 'true');
-            
-            box.className = 'success-style';
-            box.style.display = 'block';
-            box.innerText = t.success;
-            document.getElementById('btn-complete').style.display = 'none';
-            document.getElementById('btn-join').style.background = 'var(--success)';
+            const timestamp = new Date().toLocaleString();
+            const formData = new FormData();
+            formData.append('name', name.value);
+            formData.append('email', email.value);
+            formData.append('birthDate', `${day}/${month}/${year}`);
+            formData.append('timestamp', timestamp);
+
+            fetch(SCRIPT_URL, { method: 'POST', body: formData, mode: 'no-cors' })
+            .then(() => {
+                localStorage.setItem('isAuth', 'true');
+                box.className = 'success-style';
+                box.style.display = 'block';
+                box.innerText = t.success;
+                btn.style.display = 'none';
+                setTimeout(() => { window.location.href = DISCORD_LINK; }, 1500);
+            })
+            .catch(() => {
+                btn.disabled = false;
+                btn.innerText = t.btnComplete;
+                alert("Connection Error!");
+            });
         }
     </script>
 </body>
